@@ -1,0 +1,38 @@
+[
+  {
+    "id": "jaron-clark",
+    "name": "Jaron Clark",
+    "instrument": "Modern Violinist · Owner",
+    "bio": "Jaron is the face behind Premier Entertainment: a modern violinist who leads with artistry and professionalism. He represents the caliber of talent we book for weddings, corporate events, festivals, and luxury venues across the country.",
+    "image": "/artists/jaron-clark.png",
+    "video": "",
+    "slug": "jaron-clark"
+  },
+  {
+    "id": "leo-lux",
+    "name": "LEO LUX",
+    "instrument": "DJ",
+    "bio": "High-energy DJ sets tailored to your crowd—perfect for receptions, clubs, and brand activations.",
+    "image": "/artists/leo-lux.png",
+    "video": "",
+    "slug": "leo-lux"
+  },
+  {
+    "id": "ennis-one-man-band",
+    "name": "Ennis One Man Band",
+    "instrument": "",
+    "bio": "Full-band sound with a solo footprint—ideal when you want impact without a large footprint on stage.",
+    "image": "/artists/ennis-one-man-band.png",
+    "video": "",
+    "slug": "ennis-one-man-band"
+  },
+  {
+    "id": "craig-and-ennis",
+    "name": "Craig & Ennis",
+    "instrument": "Duo",
+    "bio": "Dynamic duo performances that bring chemistry and versatility to weddings, private events, and stages that demand presence.",
+    "image": "/artists/craig-and-ennis.png",
+    "video": "",
+    "slug": "craig-and-ennis"
+  }
+]

@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 45%, black 36%, transparent 90%);
+}
+
+.hero-spotlight {
+  background: radial-gradient(circle at 50% 40%, rgba(255, 205, 58, 0.15), transparent 52%);
+}
+
+.hero-vignette {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 48%, rgba(4, 6, 14, 0.45) 84%),
+    linear-gradient(180deg, rgba(7, 10, 23, 0.2), rgba(7, 10, 23, 0.48));
+}
+
+.hero-logo-watermark {
+  filter: drop-shadow(0 10px 26px rgba(255, 202, 44, 0.1));
+  mix-blend-mode: screen;
+}
+
+.hero-logo-blend {
+  position: relative;
+}
+
+.hero-logo-blend::before {
+  content: "";
+  position: absolute;
+  inset: -14% -10% -16% -10%;
+  background: radial-gradient(
+    ellipse at 50% 52%,
+    rgba(241, 195, 61, 0.18) 0%,
+    rgba(241, 195, 61, 0.07) 35%,
+    rgba(241, 195, 61, 0.02) 55%,
+    transparent 78%
+  );
+  filter: blur(12px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-logo-image {
+  position: relative;
+  z-index: 1;
+  filter:
+    saturate(0.9)
+    brightness(0.94)
+    contrast(0.95)
+    drop-shadow(0 8px 20px rgba(255, 197, 51, 0.16));
+  mix-blend-mode: screen;
+}
+
+.hero-content-shell {
+  text-shadow: 0 4px 26px rgba(0, 0, 0, 0.45);
+}

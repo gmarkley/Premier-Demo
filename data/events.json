@@ -1,0 +1,22 @@
+[
+  {
+    "id": "weddings",
+    "name": "Weddings",
+    "description": "Elegant musical performances to make your special day unforgettable."
+  },
+  {
+    "id": "corporate-events",
+    "name": "Corporate Events",
+    "description": "Professional entertainment solutions for corporate gatherings and product launches."
+  },
+  {
+    "id": "djs-bands",
+    "name": "DJs & Bands",
+    "description": "Top-tier DJs and live bands for vibrant and energetic performances."
+  },
+  {
+    "id": "festivals",
+    "name": "Festivals",
+    "description": "Dynamic stage acts and engaging performances for large-scale festivals."
+  }
+]
