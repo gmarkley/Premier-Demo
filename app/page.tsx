@@ -26,8 +26,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="mt-4 font-montserrat text-xl text-gold-400 md:text-2xl"
         >
-          Live instrumentalists · Weddings · Corporate events · DJs & bands · Yacht clubs · Resorts ·
-          Festivals
+          Live Instrumentalists · Weddings · Corporate Events · DJs & Bands
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,19 +36,19 @@ export default function Home() {
         >
           <Link
             href="/#contact"
-            className="inline-block rounded-full bg-gold-500 px-10 py-4 text-xl font-bold text-gray-900 shadow-lg transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_20px_rgba(255,198,0,0.6)] active:scale-[0.98]"
+            className="inline-block rounded-full bg-gold-500 px-10 py-4 text-xl font-bold text-gray-900 shadow-lg transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] active:scale-[0.98]"
           >
             BOOK YOUR EVENT
           </Link>
         </motion.div>
       </Hero>
       <HomeCompanySection />
-      <section id="services">
-        <Services />
-      </section>
       <HomeOwnerSpotlight />
       <section id="roster">
         <HomeMeetArtistsStrip />
+      </section>
+      <section id="services">
+        <Services />
       </section>
       <HomeFaqSection />
       <section id="contact">

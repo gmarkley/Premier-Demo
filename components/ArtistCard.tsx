@@ -13,16 +13,16 @@ interface ArtistCardProps {
 
 export default function ArtistCard({ name, instrument, image, slug }: ArtistCardProps) {
   return (
-    <Link href={`/artists/${slug}`} passHref>
+    <Link href={`/artists/${slug}`} className="block h-full" passHref>
       <motion.div
-        className="relative bg-gray-800 rounded-lg shadow-xl overflow-hidden group cursor-pointer border border-gray-700"
+        className="relative flex h-full flex-col overflow-hidden rounded-lg border border-gray-700 bg-gray-800 shadow-xl group cursor-pointer"
         whileHover={{ scale: 1.03, boxShadow: "0 15px 30px rgba(0,0,0,0.4)" }}
         whileTap={{ scale: 0.98 }}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <div className="relative h-64 w-full overflow-hidden">
+        <div className="relative h-64 w-full shrink-0 overflow-hidden">
           <Image
             src={image}
             alt={name}
@@ -34,9 +34,11 @@ export default function ArtistCard({ name, instrument, image, slug }: ArtistCard
             {/* Gradient Overlay */}
           </div>
         </div>
-        <div className="p-6 text-center">
-          <h2 className="text-3xl font-bold text-white mb-1">{name}</h2>
-          <p className="text-gold-400 text-lg">{instrument}</p>
+        <div className="flex flex-1 flex-col p-6 text-center">
+          <h2 className="text-3xl font-bold leading-snug text-white">{name}</h2>
+          <div className="mt-2 flex min-h-[3.5rem] flex-col items-center justify-center">
+            {instrument ? <p className="text-lg text-gold-400">{instrument}</p> : null}
+          </div>
         </div>
       </motion.div>
     </Link>

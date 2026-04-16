@@ -31,8 +31,8 @@ function videoCta(name: string) {
   if (name === "Jaron Clark") {
     return (
       <>
-        <span className="block">Check out my videos</span>
-        <span className="mt-0.5 block text-[11px] font-normal text-gray-600">Video 2 · Video 3</span>
+        <span className="block leading-tight">Check out my videos</span>
+        <span className="block text-[11px] font-normal leading-tight text-gray-500">Video 2 · Video 3</span>
       </>
     );
   }
@@ -55,15 +55,15 @@ export default function HomeMeetArtistsStrip() {
   }, []);
 
   return (
-    <section id="roster" className="border-t border-amber-200/40 bg-[#f7d54a] py-14 md:py-20">
-      <div className="mx-auto max-w-6xl px-4">
+    <section id="roster" className="bg-gray-800/70 py-14 md:py-20">
+      <div className="relative mx-auto max-w-6xl px-4">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10 text-center text-3xl font-extrabold tracking-tight text-gray-900 md:text-4xl"
+          className="mb-10 text-center text-3xl font-extrabold tracking-tight text-white md:text-4xl"
         >
-          Meet our artists
+          Meet Our Artists
         </motion.h2>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -74,13 +74,13 @@ export default function HomeMeetArtistsStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.06 * i, duration: 0.45 }}
-              className="flex flex-col items-center rounded-2xl bg-white px-5 pb-6 pt-8 text-center shadow-md shadow-black/10"
+              className="flex h-full flex-col rounded-2xl border border-white/10 bg-black px-5 pb-5 pt-6 text-center shadow-xl shadow-black/50 backdrop-blur-sm"
             >
               <Link
                 href={`/artists/${artist.slug}`}
-                className="group flex w-full flex-col items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 focus-visible:ring-offset-2"
+                className="group flex w-full flex-1 flex-col items-center text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0c14]"
               >
-                <div className="relative h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-lg ring-2 ring-amber-300/60 transition group-hover:ring-amber-500">
+                <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-gray-800 shadow-lg ring-2 ring-gold-500/45 transition group-hover:ring-gold-300 group-hover:shadow-[0_0_0_6px_rgba(255,215,0,0.28)]">
                   <img
                     src={artistImageOverrides[artist.slug] ?? artist.image}
                     alt={artist.name}
@@ -103,13 +103,22 @@ export default function HomeMeetArtistsStrip() {
                     }}
                   />
                 </div>
-                <h3 className="mt-5 text-lg font-extrabold text-gray-900">{artist.name}</h3>
-                {artist.instrument ? (
-                  <p className="mt-1 text-sm font-bold uppercase tracking-wide text-gray-800">
-                    {artist.instrument.replace(/\s*·\s*Owner/gi, "").trim()}
-                  </p>
-                ) : null}
-                <span className="mt-4 text-xs font-semibold text-amber-900 underline decoration-amber-700/50 underline-offset-2 transition group-hover:text-amber-950">
+                <div className="mt-3 flex h-[4.25rem] w-full flex-col items-center justify-start text-center">
+                  <h3
+                    className="line-clamp-2 w-full text-lg font-extrabold leading-tight text-white"
+                    title={artist.name}
+                  >
+                    {artist.name}
+                  </h3>
+                </div>
+                <div className="mt-0 flex min-h-[2rem] w-full flex-col items-center justify-start">
+                  {artist.instrument ? (
+                    <p className="text-center text-sm font-bold uppercase leading-tight tracking-wide text-gray-400">
+                      {artist.instrument.replace(/\s*·\s*Owner/gi, "").trim()}
+                    </p>
+                  ) : null}
+                </div>
+                <span className="mt-auto flex min-h-[3rem] w-full flex-col items-center justify-start gap-0 pt-2 text-xs font-semibold leading-tight text-gold-400 underline decoration-gold-500/40 underline-offset-2 transition group-hover:text-gold-300">
                   {videoCta(artist.name)}
                 </span>
               </Link>
@@ -117,8 +126,11 @@ export default function HomeMeetArtistsStrip() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-sm font-medium text-gray-800">
-          <Link href="/artists" className="underline decoration-gray-700/40 underline-offset-2 hover:text-gray-950">
+        <p className="mt-10 text-center text-sm font-medium text-gray-500">
+          <Link
+            href="/artists"
+            className="underline decoration-white/20 underline-offset-2 transition hover:text-gold-400"
+          >
             View full artist roster
           </Link>
         </p>

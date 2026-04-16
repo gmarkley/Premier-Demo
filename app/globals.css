@@ -15,7 +15,7 @@ html {
 }
 
 .hero-spotlight {
-  background: radial-gradient(circle at 50% 40%, rgba(255, 205, 58, 0.15), transparent 52%);
+  background: radial-gradient(circle at 50% 40%, rgba(255, 215, 0, 0.15), transparent 52%);
 }
 
 .hero-vignette {
@@ -25,7 +25,7 @@ html {
 }
 
 .hero-logo-watermark {
-  filter: drop-shadow(0 10px 26px rgba(255, 202, 44, 0.1));
+  filter: drop-shadow(0 10px 26px rgba(255, 215, 0, 0.1));
   mix-blend-mode: screen;
 }
 
@@ -39,9 +39,9 @@ html {
   inset: -14% -10% -16% -10%;
   background: radial-gradient(
     ellipse at 50% 52%,
-    rgba(241, 195, 61, 0.18) 0%,
-    rgba(241, 195, 61, 0.07) 35%,
-    rgba(241, 195, 61, 0.02) 55%,
+    rgba(255, 215, 0, 0.26) 0%,
+    rgba(255, 215, 0, 0.11) 35%,
+    rgba(255, 215, 0, 0.04) 55%,
     transparent 78%
   );
   filter: blur(12px);
@@ -53,10 +53,10 @@ html {
   position: relative;
   z-index: 1;
   filter:
-    saturate(0.9)
-    brightness(0.94)
-    contrast(0.95)
-    drop-shadow(0 8px 20px rgba(255, 197, 51, 0.16));
+    saturate(1.05)
+    brightness(1.12)
+    contrast(1.02)
+    drop-shadow(0 8px 24px rgba(255, 215, 0, 0.22));
   mix-blend-mode: screen;
 }
 

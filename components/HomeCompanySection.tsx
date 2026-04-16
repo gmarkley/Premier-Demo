@@ -2,6 +2,10 @@
 
 import { motion } from "framer-motion";
 
+/** Soft wedding atmosphere — Unsplash (Unsplash License). Replace with your own asset (e.g. from Freepik) in `/public` if preferred. */
+const COMPANY_SECTION_BG =
+  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2400&q=80";
+
 const pillars = [
   {
     title: "Customized solutions",
@@ -19,8 +23,18 @@ const pillars = [
 
 export default function HomeCompanySection() {
   return (
-    <section id="company" className="border-t border-gray-800 bg-gray-900 py-16 md:py-20">
-      <div className="mx-auto max-w-5xl px-4 text-center">
+    <section
+      id="company"
+      className="relative overflow-hidden border-t border-gray-800 bg-gray-900 py-16 md:py-20"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        <div
+          className="absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 scale-110 bg-cover bg-center bg-no-repeat opacity-25"
+          style={{ backgroundImage: `url('${COMPANY_SECTION_BG}')` }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,7 +51,7 @@ export default function HomeCompanySection() {
           transition={{ duration: 0.55, delay: 0.05 }}
           className="mt-3 text-3xl font-extrabold leading-tight text-white md:text-4xl"
         >
-          The PREMIER agency for America&apos;s brightest musical talents
+          The PREMIER Agency for America&apos;s Brightest Musical Talents
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -52,7 +66,7 @@ export default function HomeCompanySection() {
         </motion.p>
       </div>
 
-      <div className="mx-auto mt-14 grid max-w-5xl gap-6 px-4 md:grid-cols-3">
+      <div className="relative z-10 mx-auto mt-14 grid max-w-5xl gap-6 px-4 md:grid-cols-3">
         {pillars.map((item, i) => (
           <motion.article
             key={item.title}
@@ -73,7 +87,7 @@ export default function HomeCompanySection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mx-auto mt-12 max-w-3xl px-4 text-center"
+        className="relative z-10 mx-auto mt-12 max-w-3xl px-4 text-center"
       >
         <p className="text-sm uppercase tracking-widest text-gray-500">Want to work with us?</p>
         <a

@@ -12,10 +12,16 @@ const config: Config = {
         sans: ['var(--font-montserrat)', 'sans-serif'],
       },
       colors: {
+        /** Web “gold” #FFD700 — tints/shades stay in the same hue */
         gold: {
+          50: '#FFFDF0',
+          100: '#FFF9CC',
+          200: '#FFF0A3',
+          300: '#FFE566',
           400: '#FFD700',
-          500: '#FFC600',
-          600: '#E0B800',
+          500: '#FFD700',
+          600: '#CCAC00',
+          700: '#998100',
         },
       },
       backgroundImage: {

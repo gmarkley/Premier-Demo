@@ -24,11 +24,48 @@ const servicesData = [
     description: "Dynamic stage acts and engaging performances for large-scale festivals.",
     icon: "🎉",
   },
+  {
+    title: "Yacht Clubs",
+    description: "Upscale live entertainment crafted for waterfront venues and yacht club events.",
+    icon: "🛥️",
+  },
+  {
+    title: "Private Jets",
+    description: "Luxury-ready performances and ambiance tailored for private aviation experiences.",
+    icon: "🛩️",
+  },
+  {
+    title: "Live Instrumentalists",
+    description: "Sophisticated live musicians to elevate cocktail hours, ceremonies, and premium events.",
+    icon: "🎻",
+  },
+  {
+    title: "Five Star Restaurants",
+    description: "Refined entertainment programming for luxury dining and elevated guest experiences.",
+    icon: "🍽️",
+  },
+  {
+    title: "Hotels and Resorts",
+    description: "Curated performances for destination properties, lobby ambiance, and signature events.",
+    icon: "🏨",
+  },
 ];
+
+/** Wedding reception venue — Unsplash (Unsplash License). */
+const SERVICES_BG_IMAGE =
+  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=80";
 
 export default function Services() {
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="relative overflow-hidden border-t border-gold-500/15">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.14]"
+        style={{ backgroundImage: `url('${SERVICES_BG_IMAGE}')` }}
+      />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[#0c0f1a]/92 via-gray-950/88 to-[#05070f]/92" />
+      <div className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(255,215,0,0.06),transparent_55%)]" />
+      <div className="container relative z-10 mx-auto px-4 py-16">
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -47,6 +84,7 @@ export default function Services() {
             icon={service.icon}
           />
         ))}
+      </div>
       </div>
     </div>
   );

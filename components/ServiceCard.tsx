@@ -10,10 +10,20 @@ interface ServiceCardProps {
   icon: string;
 }
 
+/** Match keys in `app/services/[slug]/page.tsx` (e.g. "DJs & Bands" → djs-bands). */
+function serviceSlugFromTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/&/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export default function ServiceCard({ title, description, icon }: ServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const serviceSlug = title.toLowerCase().replace(/\s+/g, '-');
+  const serviceSlug = serviceSlugFromTitle(title);
 
   return (
     <Link href={`/services/${serviceSlug}`} passHref>

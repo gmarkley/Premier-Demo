@@ -28,6 +28,19 @@ const jaronVideos: ArtistVideo[] = [
   { title: "Jaron Clark Performance 3", url: "https://www.youtube.com/watch?v=AXrDexTPGjw" },
 ];
 
+/** Extra Ennis clips (optional). Primary video can also live in `data/artists.json` → `video`. */
+const ennisVideos: ArtistVideo[] = [];
+
+function featuredVideosForArtist(artist: Artist): ArtistVideo[] {
+  if (artist.slug === "jaron-clark") return jaronVideos;
+  if (artist.slug === "ennis-one-man-band") {
+    if (ennisVideos.length > 0) return ennisVideos;
+    if (artist.video) return [{ title: "Ennis One Man Band — performance", url: artist.video }];
+    return [];
+  }
+  return [];
+}
+
 function getYouTubeVideoId(url: string) {
   const shortsMatch = url.match(/youtube\.com\/shorts\/([^?&/]+)/i);
   if (shortsMatch?.[1]) return shortsMatch[1];
@@ -61,6 +74,9 @@ export default function ArtistDetailPage() {
         setArtist(foundArtist ?? null);
         if (foundArtist?.slug === "jaron-clark") {
           setActiveVideoUrl(jaronVideos[0].url);
+        } else if (foundArtist?.slug === "ennis-one-man-band") {
+          const list = featuredVideosForArtist(foundArtist);
+          setActiveVideoUrl(list[0]?.url ?? foundArtist?.video ?? "");
         } else {
           setActiveVideoUrl(foundArtist?.video ?? "");
         }
@@ -89,7 +105,7 @@ export default function ArtistDetailPage() {
     );
   }
 
-  const featuredVideos = artist.slug === "jaron-clark" ? jaronVideos : [];
+  const featuredVideos = featuredVideosForArtist(artist);
   const activeEmbedUrl = toEmbedUrl(activeVideoUrl);
 
   return (
@@ -193,7 +209,7 @@ export default function ArtistDetailPage() {
                     onClick={() => setActiveVideoUrl(video.url)}
                     className={`overflow-hidden rounded-lg border text-left transition ${
                       isActive
-                        ? "border-gold-400 bg-gold-500/10 shadow-[0_0_0_1px_rgba(251,191,36,0.35)]"
+                        ? "border-gold-400 bg-gold-500/10 shadow-[0_0_0_1px_rgba(255,215,0,0.35)]"
                         : "border-gray-700 bg-gray-900/80 hover:border-gold-500/40"
                     }`}
                   >

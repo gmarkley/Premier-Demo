@@ -30,13 +30,13 @@ export default function HomeFaqSection() {
   const [openIdx, setOpenIdx] = useState(0);
 
   return (
-    <section id="faq" className="border-t border-gray-800 bg-[#f2f3f8] py-10 text-gray-900 md:py-14">
+    <section id="faq" className="border-t border-gold-500/20 bg-gray-950 py-10 text-white md:py-14">
       <div className="mx-auto max-w-5xl px-4">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-gray-700"
+          className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-gold-400"
         >
           Still not sure?
         </motion.p>
@@ -45,7 +45,7 @@ export default function HomeFaqSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.05 }}
-          className="mt-2 text-center text-3xl font-extrabold tracking-tight text-[#0e143f] md:text-4xl"
+          className="mt-2 text-center text-3xl font-extrabold tracking-tight text-white md:text-4xl"
         >
           Frequently Asked Questions
         </motion.h2>
@@ -54,7 +54,7 @@ export default function HomeFaqSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="mx-auto mt-3 max-w-2xl text-center text-base text-gray-600 md:text-lg"
+          className="mx-auto mt-3 max-w-2xl text-center text-base text-gray-300 md:text-lg"
         >
           Got questions about our artists services? You&apos;re in the right place!
         </motion.p>
@@ -69,16 +69,16 @@ export default function HomeFaqSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.04 }}
-                className="overflow-hidden rounded-xl border border-gray-400/70 bg-white shadow-sm"
+                className="overflow-hidden rounded-xl border border-white/10 bg-gray-900/70 shadow-sm"
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? -1 : idx)}
                   className="flex w-full items-center justify-between gap-4 px-5 py-3.5 text-left"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-lg font-bold text-[#101327] md:text-[1.65rem]">{item.question}</span>
+                  <span className="text-lg font-bold text-white md:text-[1.65rem]">{item.question}</span>
                   <span
-                    className={`text-xl font-bold text-[#101327] transition-transform duration-300 ${
+                    className={`text-xl font-bold text-gold-400 transition-transform duration-300 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   >
@@ -94,9 +94,9 @@ export default function HomeFaqSection() {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.28, ease: "easeOut" }}
-                      className="overflow-hidden border-t border-gray-200 bg-[#eef0f7]"
+                      className="overflow-hidden border-t border-white/10 bg-gray-900"
                     >
-                      <p className="px-5 py-4 text-base leading-relaxed text-gray-600 md:text-lg">{item.answer}</p>
+                      <p className="px-5 py-4 text-base leading-relaxed text-gray-200 md:text-lg">{item.answer}</p>
                     </motion.div>
                   ) : null}
                 </AnimatePresence>

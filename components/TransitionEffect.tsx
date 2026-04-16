@@ -18,7 +18,7 @@ export default function TransitionEffect({ children }: TransitionEffectProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="w-full h-full"
+        className="flex min-h-0 w-full flex-1 flex-col"
       >
         {children}
       </motion.div>

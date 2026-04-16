@@ -13,19 +13,19 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="relative z-50">
-      <div className="container mx-auto flex justify-between items-center bg-black px-4 py-3 shadow-lg">
+    <nav className="relative z-50 w-full bg-black shadow-lg">
+      <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link
           href="/"
           className="rounded-md p-1 transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-gold-400"
           aria-label="Premier Entertainment home"
         >
           <Image
-            src="/brand/premier-logo.png"
-            alt="Premier Entertainment logo"
-            width={180}
-            height={68}
-            className="h-12 w-auto md:h-14"
+            src="/brand/premier-stars.png"
+            alt="Premier stars logo"
+            width={72}
+            height={72}
+            className="h-10 w-auto md:h-12"
             priority
           />
         </Link>

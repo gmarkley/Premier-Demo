@@ -32,7 +32,7 @@ export default function Hero({ children }: HeroProps) {
       <div
         className="hero-spotlight absolute inset-0 z-0 transition-all duration-200"
         style={{
-          background: `radial-gradient(circle at ${lightX} ${lightY}, rgba(246,195,51,0.22), rgba(246,195,51,0.04) 24%, transparent 58%)`,
+          background: `radial-gradient(circle at ${lightX} ${lightY}, rgba(255,215,0,0.22), rgba(255,215,0,0.04) 24%, transparent 58%)`,
         }}
       />
       <div className="hero-vignette absolute inset-0 z-0" />
@@ -51,9 +51,9 @@ export default function Hero({ children }: HeroProps) {
         style={{ transform: `translate3d(${tiltY * 0.4}px, ${tiltX * 0.4}px, 0)` }}
       >
         <motion.div
-          animate={{ opacity: [0.72, 0.86, 0.72] }}
+          animate={{ opacity: [0.94, 1, 0.94] }}
           transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-          className="hero-logo-blend mx-auto mb-6 w-[78vw] max-w-[1140px] bg-black px-4 py-3 sm:mb-7 sm:px-5 sm:py-4 md:mb-8"
+          className="hero-logo-blend mx-auto mb-6 w-[78vw] max-w-[1140px] bg-[#05070f] px-4 py-3 sm:mb-7 sm:px-5 sm:py-4 md:mb-8"
           style={{ transform: `translate3d(${tiltY * 0.9}px, ${tiltX * 0.9}px, 0)` }}
         >
           <Image
