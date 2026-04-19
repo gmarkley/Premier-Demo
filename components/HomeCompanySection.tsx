@@ -51,7 +51,7 @@ export default function HomeCompanySection() {
           transition={{ duration: 0.55, delay: 0.05 }}
           className="mt-3 text-3xl font-extrabold leading-tight text-white md:text-4xl"
         >
-          The PREMIER Agency for America&apos;s Brightest Musical Talents
+          The Premier Agency for World Class Luxury Events
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}

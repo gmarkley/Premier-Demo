@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Artist {
   id: string;
@@ -41,6 +41,16 @@ function videoCta(name: string) {
 
 export default function HomeMeetArtistsStrip() {
   const [artists, setArtists] = useState<Artist[]>([]);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const scrollArtists = (direction: "left" | "right") => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const cardWidth = 288;
+    const gap = 24;
+    const delta = cardWidth + gap;
+    el.scrollBy({ left: direction === "left" ? -delta : delta, behavior: "smooth" });
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -61,20 +71,44 @@ export default function HomeMeetArtistsStrip() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10 text-center text-3xl font-extrabold tracking-tight text-white md:text-4xl"
+          className="mb-6 text-center text-3xl font-extrabold tracking-tight text-white md:mb-8 md:text-4xl"
         >
           Meet Our Artists
         </motion.h2>
+        <p className="mb-6 text-center text-sm text-gray-500 md:text-base">
+          Swipe or scroll sideways to see more artists
+        </p>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollArtists("left")}
+            className="absolute left-0 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-gray-900/95 text-2xl text-gold-400 shadow-lg backdrop-blur-sm transition hover:border-gold-500/40 hover:bg-gray-800 md:flex"
+            aria-label="Scroll artists left"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollArtists("right")}
+            className="absolute right-0 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-gray-900/95 text-2xl text-gold-400 shadow-lg backdrop-blur-sm transition hover:border-gold-500/40 hover:bg-gray-800 md:flex"
+            aria-label="Scroll artists right"
+          >
+            ›
+          </button>
+
+          <div
+            ref={scrollerRef}
+            className="flex snap-x snap-mandatory gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-3 pt-1 [-webkit-overflow-scrolling:touch] scroll-smooth sm:px-12 md:px-14 [scrollbar-width:thin]"
+          >
           {artists.map((artist, i) => (
             <motion.article
               key={artist.id}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.06 * i, duration: 0.45 }}
-              className="flex h-full flex-col rounded-2xl border border-white/10 bg-black px-5 pb-5 pt-6 text-center shadow-xl shadow-black/50 backdrop-blur-sm"
+              transition={{ delay: 0.04 * Math.min(i, 8), duration: 0.45 }}
+              className="flex h-full w-[min(18rem,calc(100vw-2.5rem))] shrink-0 snap-start flex-col rounded-2xl border border-white/10 bg-black px-5 pb-5 pt-6 text-center shadow-xl shadow-black/50 backdrop-blur-sm md:w-72"
             >
               <Link
                 href={`/artists/${artist.slug}`}
@@ -124,6 +158,7 @@ export default function HomeMeetArtistsStrip() {
               </Link>
             </motion.article>
           ))}
+          </div>
         </div>
 
         <p className="mt-10 text-center text-sm font-medium text-gray-500">

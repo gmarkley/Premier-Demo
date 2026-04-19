@@ -56,7 +56,7 @@ export default function HomeFaqSection() {
           transition={{ delay: 0.1 }}
           className="mx-auto mt-3 max-w-2xl text-center text-base text-gray-300 md:text-lg"
         >
-          Got questions about our artists services? You&apos;re in the right place!
+          Got questions about our artists&apos; services? You&apos;re in the right place!
         </motion.p>
 
         <div className="mt-8 space-y-3">

@@ -8,7 +8,7 @@ const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat
 
 export const metadata: Metadata = {
   title: 'Premier Entertainment',
-  description: 'Your Partner in Unforgettable Events!',
+  description: 'Make Your Event Unforgettable!',
   icons: {
     icon: '/icon.png',
     shortcut: '/icon.png',

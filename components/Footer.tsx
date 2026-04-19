@@ -16,7 +16,7 @@ export default function Footer() {
           />
         </div>
         <p>&copy; {new Date().getFullYear()} Premier Entertainment. All rights reserved.</p>
-        <p>Your Partner in Unforgettable Events!</p>
+        <p>Make Your Event Unforgettable!</p>
         <p className="mt-3 text-gold-500/90">
           <a href="tel:4077650323" className="hover:text-gold-300">
             407-765-0323

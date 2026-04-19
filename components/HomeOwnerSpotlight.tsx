@@ -33,11 +33,8 @@ export default function HomeOwnerSpotlight() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="text-left"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gold-400">
-            Meet the owner
-          </p>
-          <h2 className="mt-2 text-4xl font-extrabold text-white md:text-5xl">Jaron Clark</h2>
-          <p className="mt-2 text-xl text-gold-300 md:text-2xl">Modern Violinist · Premier Entertainment</p>
+          <h2 className="text-4xl font-extrabold text-white md:text-5xl">Jaron Clark</h2>
+          <p className="mt-2 text-xl text-gold-300 md:text-2xl">Modern Violinist</p>
           <p className="mt-6 text-lg leading-relaxed text-gray-300">
             Jaron leads Premier Entertainment as a performing artist and curator of live experiences. From
             elegant violin moments to full-scale event energy, he represents the same standard of excellence
@@ -48,21 +45,13 @@ export default function HomeOwnerSpotlight() {
             innovative ideas with meticulous execution so your gathering not only meets expectations—it exceeds
             them.
           </p>
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8">
             <Link
               href="/artists/jaron-clark"
               className="inline-flex rounded-full border border-gold-500/60 bg-gold-500/10 px-6 py-3 text-sm font-semibold text-gold-200 transition hover:bg-gold-500/20"
             >
               View artist profile
             </Link>
-            <a
-              href="https://premierentertainment.events/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex rounded-full border border-gray-600 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-gold-500/50 hover:text-white"
-            >
-              Live site
-            </a>
           </div>
         </motion.div>
       </div>

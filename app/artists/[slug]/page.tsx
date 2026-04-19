@@ -35,7 +35,7 @@ function featuredVideosForArtist(artist: Artist): ArtistVideo[] {
   if (artist.slug === "jaron-clark") return jaronVideos;
   if (artist.slug === "ennis-one-man-band") {
     if (ennisVideos.length > 0) return ennisVideos;
-    if (artist.video) return [{ title: "Ennis One Man Band — performance", url: artist.video }];
+    if (artist.video) return [{ title: "Ennis — performance", url: artist.video }];
     return [];
   }
   return [];
@@ -88,6 +88,14 @@ export default function ArtistDetailPage() {
       cancelled = true;
     };
   }, [slug]);
+
+  useEffect(() => {
+    if (!artist) return;
+    document.title = `${artist.name} | Premier Entertainment`;
+    return () => {
+      document.title = "Premier Entertainment";
+    };
+  }, [artist]);
 
   if (!ready) {
     return (

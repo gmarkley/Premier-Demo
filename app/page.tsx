@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Hero>
         <AnimatedText
-          text="Your Partner in Unforgettable Events!"
+          text="Make Your Event Unforgettable!"
           className="text-5xl md:text-7xl font-extrabold text-white leading-tight"
           delay={0.2}
         />
@@ -24,9 +24,11 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="mt-4 font-montserrat text-xl text-gold-400 md:text-2xl"
+          className="mt-4 flex flex-col gap-1 font-montserrat text-xl text-gold-400 md:text-2xl"
         >
-          Live Instrumentalists · Weddings · Corporate Events · DJs & Bands
+          <span className="block">Live Instrumentalists · Bands · DJs</span>
+          <span className="block">Weddings · Hotels &amp; Resorts</span>
+          <span className="block">Corporate & Private Events</span>
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,7 +40,7 @@ export default function Home() {
             href="/#contact"
             className="inline-block rounded-full bg-gold-500 px-10 py-4 text-xl font-bold text-gray-900 shadow-lg transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_20px_rgba(255,215,0,0.6)] active:scale-[0.98]"
           >
-            BOOK YOUR EVENT
+            Request a Quote
           </Link>
         </motion.div>
       </Hero>

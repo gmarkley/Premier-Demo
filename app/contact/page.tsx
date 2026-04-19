@@ -107,7 +107,7 @@ export default function Contact() {
                   transition={{ delay: 0.1, duration: 0.45 }}
                   className="mt-3 bg-gradient-to-br from-white via-white to-white/75 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl"
                 >
-                  Let&apos;s plan your event
+                  Let&apos;s Plan Your Event
                 </motion.h1>
                 <motion.p
                   initial={{ opacity: 0 }}
