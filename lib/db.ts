@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+import { neon } from "@neondatabase/serverless";
 
 function unwrap(value: string) {
   const v = value.trim();
@@ -13,16 +11,11 @@ function unwrap(value: string) {
   return v;
 }
 
-/** Neon pooled hosts hang under Prisma unless pgbouncer=true; channel_binding=require can stall on Vercel. */
 export function sanitizeDatabaseUrl(raw: string) {
   try {
     const u = new URL(unwrap(raw));
-    if (u.hostname.includes("-pooler")) {
-      u.searchParams.set("pgbouncer", "true");
-    }
     u.searchParams.delete("channel_binding");
     if (!u.searchParams.get("sslmode")) u.searchParams.set("sslmode", "require");
-    u.searchParams.set("connect_timeout", "10");
     return u.toString();
   } catch {
     return unwrap(raw);
@@ -39,13 +32,11 @@ export function databaseUrl() {
   return raw.trim() ? sanitizeDatabaseUrl(raw) : "";
 }
 
-const url = databaseUrl();
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    ...(url ? { datasources: { db: { url } } } : {}),
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
+/** Neon SQL over HTTP — no Prisma TCP engine, which hangs on Vercel + pooler. */
+export function sql() {
+  const url = databaseUrl();
+  if (!url) throw new Error("DATABASE_URL is not set.");
+  return neon(url, {
+    fetchOptions: { signal: AbortSignal.timeout(8000) },
   });
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+}
