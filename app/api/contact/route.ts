@@ -1,23 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { createContact } from "../../../lib/contacts";
 
-const GHL_BASE = 'https://services.leadconnectorhq.com';
-const API_VERSION = '2021-07-28';
-
-function ghlHeaders(apiKey: string): HeadersInit {
-  return {
-    Authorization: `Bearer ${apiKey}`,
-    'Content-Type': 'application/json',
-    Version: API_VERSION,
-  };
-}
-
-function extractContactId(data: Record<string, unknown>): string | undefined {
-  const contact = data.contact as Record<string, unknown> | undefined;
-  if (contact && typeof contact.id === 'string') return contact.id;
-  if (typeof data.id === 'string') return data.id;
-  if (typeof data.contactId === 'string') return data.contactId;
-  return undefined;
-}
+const NOTIFY_EMAIL = "vip@premierentertainment.events";
+const FROM_EMAIL =
+  process.env.FROM_EMAIL?.trim() ||
+  "Premier Entertainment <hello@premieradvertisement.com>";
 
 type ContactPayload = {
   name: string;
@@ -26,19 +13,27 @@ type ContactPayload = {
   message: string;
 };
 
+function escHtml(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function parseBody(raw: unknown): ContactPayload | { error: string; status: number } {
   const body = raw as Record<string, unknown>;
-  const name = typeof body.name === 'string' ? body.name : '';
-  const email = typeof body.email === 'string' ? body.email : '';
-  const phone = typeof body.phone === 'string' ? body.phone : '';
-  const message = typeof body.message === 'string' ? body.message : '';
+  const name = typeof body.name === "string" ? body.name : "";
+  const email = typeof body.email === "string" ? body.email : "";
+  const phone = typeof body.phone === "string" ? body.phone : "";
+  const message = typeof body.message === "string" ? body.message : "";
 
   if (!name.trim() || !email.trim() || !message.trim()) {
-    return { error: 'Name, email, and event details are required.', status: 400 };
+    return { error: "Name, email, and event details are required.", status: 400 };
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    return { error: 'Please enter a valid email address.', status: 400 };
+    return { error: "Please enter a valid email address.", status: 400 };
   }
 
   return {
@@ -49,92 +44,67 @@ function parseBody(raw: unknown): ContactPayload | { error: string; status: numb
   };
 }
 
-/** Workflow Inbound Webhook — no REST “contacts” scope required. Map fields in the workflow to Create/Update Contact. */
-async function sendViaWebhook(webhookUrl: string, payload: ContactPayload) {
-  const res = await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+async function sendViaResend(payload: ContactPayload) {
+  const key = process.env.RESEND_API_KEY?.trim();
+  if (!key) return false;
+
+  const html =
+    `<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;line-height:1.6">` +
+    `<h2 style="margin:0 0 12px">New Premier Entertainment inquiry</h2>` +
+    `<table cellpadding="4" style="border-collapse:collapse">` +
+    `<tr><td><strong>Name</strong></td><td>${escHtml(payload.name)}</td></tr>` +
+    `<tr><td><strong>Email</strong></td><td>${escHtml(payload.email)}</td></tr>` +
+    `<tr><td><strong>Phone</strong></td><td>${escHtml(payload.phone || "—")}</td></tr>` +
+    `</table>` +
+    `<p style="margin-top:12px;white-space:pre-wrap">${escHtml(payload.message)}</p>` +
+    `<p style="margin-top:16px;font-size:13px;color:#555">Saved in the contact CRM at /crm</p>` +
+    `</div>`;
+
+  const text =
+    `New Premier Entertainment inquiry\n\n` +
+    `Name: ${payload.name}\n` +
+    `Email: ${payload.email}\n` +
+    `Phone: ${payload.phone || "—"}\n\n` +
+    `${payload.message}\n`;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + key,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone || undefined,
-      message: payload.message,
-      source: 'Premier Entertainment – contact form',
+      from: FROM_EMAIL,
+      to: NOTIFY_EMAIL,
+      reply_to: payload.email,
+      subject: `New inquiry: ${payload.name}`,
+      html,
+      text,
     }),
   });
 
   if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    console.error('[GHL] Webhook failed', res.status, text.slice(0, 500));
+    const errText = await res.text().catch(() => "");
+    console.error("[Resend] Contact notify failed", res.status, errText.slice(0, 500));
     return false;
   }
-  return true;
-}
-
-async function sendViaRestApi(
-  apiKey: string,
-  locationId: string,
-  payload: ContactPayload
-): Promise<boolean> {
-  const headers = ghlHeaders(apiKey);
-
-  const contactPayload: Record<string, unknown> = {
-    locationId,
-    name: payload.name,
-    email: payload.email,
-    source: 'Premier Entertainment – contact form',
-    tags: ['website-contact'],
-  };
-
-  if (payload.phone) {
-    contactPayload.phone = payload.phone;
-  }
-
-  const createRes = await fetch(`${GHL_BASE}/contacts/`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(contactPayload),
-  });
-
-  const createData = (await createRes.json().catch(() => ({}))) as Record<string, unknown>;
-
-  if (!createRes.ok) {
-    console.error('[GHL] Create contact failed', createRes.status, createData);
-    return false;
-  }
-
-  const contactId = extractContactId(createData);
-
-  if (contactId && payload.message) {
-    const noteRes = await fetch(`${GHL_BASE}/contacts/${contactId}/notes`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        body: `Contact form — event details:\n\n${payload.message}`,
-      }),
-    });
-
-    if (!noteRes.ok) {
-      const noteData = await noteRes.json().catch(() => ({}));
-      console.error('[GHL] Add note failed', noteRes.status, noteData);
-    }
-  }
-
   return true;
 }
 
 export async function POST(request: Request) {
-  const webhookUrl = process.env.GHL_WEBHOOK_URL?.trim();
-  const apiKey = process.env.GHL_API_KEY?.trim();
-  const locationId = process.env.GHL_LOCATION_ID?.trim();
-
-  if (!webhookUrl && (!apiKey || !locationId)) {
+  if (!process.env.DATABASE_URL?.trim()) {
+    return NextResponse.json(
+      { error: "Contact CRM is not configured (DATABASE_URL)." },
+      { status: 503 },
+    );
+  }
+  if (!process.env.RESEND_API_KEY?.trim()) {
     return NextResponse.json(
       {
         error:
-          'Contact form is not configured. Set GHL_WEBHOOK_URL (recommended) or GHL_API_KEY + GHL_LOCATION_ID in .env.local.',
+          "Contact form is not configured. Set RESEND_API_KEY so inquiries go to vip@premierentertainment.events.",
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -142,33 +112,29 @@ export async function POST(request: Request) {
   try {
     raw = await request.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
   const parsed = parseBody(raw);
-  if ('error' in parsed) {
+  if ("error" in parsed) {
     return NextResponse.json({ error: parsed.error }, { status: parsed.status });
   }
 
-  if (webhookUrl) {
-    if (!webhookUrl.startsWith('https://')) {
-      return NextResponse.json({ error: 'Webhook URL must use https.' }, { status: 500 });
-    }
-    const ok = await sendViaWebhook(webhookUrl, parsed);
-    if (!ok) {
-      return NextResponse.json(
-        { error: 'Unable to submit right now. Please try again in a moment.' },
-        { status: 502 }
-      );
-    }
-    return NextResponse.json({ ok: true });
+  try {
+    await createContact(parsed);
+  } catch (err) {
+    console.error("[CRM] Save contact failed", err);
+    return NextResponse.json(
+      { error: "Unable to submit right now. Please try again in a moment." },
+      { status: 502 },
+    );
   }
 
-  const ok = await sendViaRestApi(apiKey!, locationId!, parsed);
-  if (!ok) {
+  const emailed = await sendViaResend(parsed);
+  if (!emailed) {
     return NextResponse.json(
-      { error: 'Unable to submit right now. Please try again in a moment.' },
-      { status: 502 }
+      { error: "Unable to submit right now. Please try again in a moment." },
+      { status: 502 },
     );
   }
 
