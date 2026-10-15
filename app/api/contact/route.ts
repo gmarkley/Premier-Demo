@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { createContact } from "../../../lib/contacts";
+import { databaseUrl } from "../../../lib/db";
+
+export const runtime = "nodejs";
+export const maxDuration = 20;
 
 const NOTIFY_EMAIL = "vip@premierentertainment.events";
 const FROM_EMAIL =
@@ -81,6 +85,7 @@ async function sendViaResend(payload: ContactPayload) {
       html,
       text,
     }),
+    signal: AbortSignal.timeout(8000),
   });
 
   if (!res.ok) {
@@ -92,7 +97,7 @@ async function sendViaResend(payload: ContactPayload) {
 }
 
 export async function POST(request: Request) {
-  if (!process.env.DATABASE_URL?.trim()) {
+  if (!databaseUrl()) {
     return NextResponse.json(
       { error: "Contact CRM is not configured (DATABASE_URL)." },
       { status: 503 },
@@ -121,7 +126,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    await createContact(parsed);
+    await Promise.race([
+      createContact(parsed),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Database timed out")), 12000),
+      ),
+    ]);
   } catch (err) {
     console.error("[CRM] Save contact failed", err);
     return NextResponse.json(

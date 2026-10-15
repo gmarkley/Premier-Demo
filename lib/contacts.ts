@@ -7,35 +7,12 @@ export function isContactStatus(value: string): value is ContactStatus {
   return (STATUSES as readonly string[]).includes(value);
 }
 
-export async function ensureContactsTable() {
-  await prisma.$executeRawUnsafe(`
-    create table if not exists pe_contacts (
-      id text primary key,
-      name text not null,
-      email text not null,
-      phone text not null default '',
-      message text not null,
-      status text not null default 'new',
-      notes text not null default '',
-      created_at timestamptz not null default now(),
-      updated_at timestamptz not null default now()
-    )
-  `);
-  await prisma.$executeRawUnsafe(
-    `create index if not exists pe_contacts_email_idx on pe_contacts (email)`,
-  );
-  await prisma.$executeRawUnsafe(
-    `create index if not exists pe_contacts_created_idx on pe_contacts (created_at desc)`,
-  );
-}
-
 export async function createContact(input: {
   name: string;
   email: string;
   phone: string;
   message: string;
 }) {
-  await ensureContactsTable();
   return prisma.contact.create({
     data: {
       name: input.name,
@@ -48,7 +25,6 @@ export async function createContact(input: {
 }
 
 export async function listContacts() {
-  await ensureContactsTable();
   return prisma.contact.findMany({
     orderBy: { createdAt: "desc" },
     take: 500,
@@ -56,7 +32,6 @@ export async function listContacts() {
 }
 
 export async function getContact(id: string) {
-  await ensureContactsTable();
   return prisma.contact.findUnique({ where: { id } });
 }
 
@@ -64,7 +39,6 @@ export async function updateContact(
   id: string,
   data: { status?: ContactStatus; notes?: string },
 ) {
-  await ensureContactsTable();
   return prisma.contact.update({
     where: { id },
     data: {
